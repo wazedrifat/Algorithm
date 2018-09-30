@@ -1,0 +1,14 @@
+bitmask:
+http://codeforces.com/blog/entry/18169
+
+http://codeforces.com/blog/entry/45223
+
+https://www.quora.com/How-do-I-approach-the-question-of-dynamic-programming-with-Bitmask/answer/Prateek-Narang-4?srid=tee6
+
+https://www.hackerearth.com/practice/notes/codemonk-dynamic-programming-ii-1/
+
+DP:
+
+http://www.shafaetsplanet.com/
+
+

@@ -1,0 +1,13 @@
+INT BS(INT arrr[], INT ll, INT rr, INT xx)
+{
+    while (ll<=rr)
+    {
+        INT mid=ll+(rr-ll)/2;
+
+        if (arr[mid]==xx)	return mid;
+		else if (arr[mid]<xx)	ll=mid+1;
+		else	rr=mid-1;
+    }
+
+    return -1;
+}
