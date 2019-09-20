@@ -20,11 +20,10 @@ public:
 
 class persistentSegmentTree {
 public:
-	node* root[MX];
+	node* root;
 	int *a, size;
-	persistentSegmentTree(int *array, int s) {
-		a = array;
-		size = s;
+	persistentSegmentTree( ) {
+	
 	}
 
 	node *build(int l, int r) {
@@ -34,13 +33,25 @@ public:
 		int mid = (l + r) >> 2;
 		n->left = build(l, mid);
 		n->right = build(mid + 1, r);
-		n->val = 
+		n->val = n->left->val + n->right->val;
+
+		return n;
 	}
 	
+	node *update(int l, int r, int pos, int val) {
+		if (r < pos || l > pos)	return this;
+	}
 };
 
 
 int main() 
 {
-	
+	int a[5] = {2, 5 , 1, 7, 3};
+	persistentSegmentTree pst[5];
+
+	pst[0].build(0, 5);
+
+	pst[1].root = pst[0].update();
+
+	pst[1].root = pst[1].update();
 }
