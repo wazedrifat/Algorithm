@@ -39,7 +39,7 @@ public:
 	}
 	
 	node *update(int l, int r, int pos, int val) {
-		if (r < pos || l > pos)	return this;
+		if (r < pos || l > pos)	return NULL;
 	}
 };
 
