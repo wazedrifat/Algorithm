@@ -1,10 +1,10 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define MX 100005
 
-vector<int>g[MX];
-deque<int>circuit, CurPath;
+vector<int> g[MX];
+deque<int> circuit, CurPath;
 
 void HierHolzar(int start)
 {
@@ -12,35 +12,35 @@ void HierHolzar(int start)
 	CurPath.clear();
 	int EdgeCount[MX];
 
-	for(int i=0 ; i<MX ; i++)
-		EdgeCount[i]=g[i].size();
+	for (int i = 0; i < MX; i++)
+		EdgeCount[i] = g[i].size();
 
 	CurPath.push_back(start);
-	int CurV=start;
+	int CurV = start;
 
-	while(CurPath.size())
-	if(EdgeCount[CurV])
-	{
-		CurPath.push_back(CurV);
-		int NextV=g[CurV].back();
-		EdgeCount[CurV]--;
-		g[CurV].pop_back();
-//		vector<int>::iterator it=find(g[NextV].begin(), g[NextV].end(), CurV);
-//		if( it!=g[NextV].end() )
-//		g[NextV].erase(it);
-		CurV=NextV;
-	}
-	else
-	{
-		circuit.push_front(CurV);
-		CurV=CurPath.back();
-		CurPath.pop_back();
-	}
+	while (CurPath.size())
+		if (EdgeCount[CurV])
+		{
+			CurPath.push_back(CurV);
+			int NextV = g[CurV].back();
+			EdgeCount[CurV]--;
+			g[CurV].pop_back();
+			//		vector<int>::iterator it=find(g[NextV].begin(), g[NextV].end(), CurV);
+			//		if( it!=g[NextV].end() )
+			//		g[NextV].erase(it);
+			CurV = NextV;
+		}
+		else
+		{
+			circuit.push_front(CurV);
+			CurV = CurPath.back();
+			CurPath.pop_back();
+		}
 }
 
 int main()
 {
-	int n=7, m=7;
+	int n = 7, m = 7;
 
 	g[0].push_back(1);
 	g[1].push_back(4);
@@ -52,6 +52,6 @@ int main()
 
 	HierHolzar(2);
 
-	for(auto v : circuit)
-		cout<<v<<" ";
+	for (auto v : circuit)
+		cout << v << " ";
 }
