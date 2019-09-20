@@ -7,6 +7,7 @@ using namespace std;
 #define PII pair <int, int>
 #define MX 100001
 
+int a[MX];
 
 class node {
 public:
@@ -21,7 +22,6 @@ public:
 class persistentSegmentTree {
 public:
 	node* root;
-	int *a, size;
 	persistentSegmentTree( ) {
 	
 	}
@@ -38,8 +38,39 @@ public:
 		return n;
 	}
 	
-	node *update(int l, int r, int pos, int val) {
-		if (r < pos || l > pos)	return NULL;
+	node *update(int l, int r, int pos, node *cur, int val) {
+		if (r < pos || l > pos)	return cur;
+		if (l == r)
+			return new node(cur->val+1);
+		
+		int mid = (l + r) >> 2;
+
+		node *left = update(l, mid, pos, cur->left, val);
+		node *right = update(mid + 1, r, pos, cur->right, val);
+		
+		return new node(left->val + right->val, left, right);
+	}
+
+	int query(int l, int r, int i, int j, node *cur) {//[l, r] range & [i, j] query
+		if (r < i || l > j)	return 0;
+		if (i <= l && j >= r)
+			return cur->val;
+		
+		int mid = (l + r) >> 2;
+
+		return query(l, mid, i, j, cur->left) + query(mid + 1, r, i, j, cur->right);
+	}
+
+	void print(node *cur) {
+		if (cur == NULL)	return;
+
+		cout << "cur = " << cur->val << " ";
+		if (left != NULL)	cout << "left = " << cur->left->val << " ";
+		if (right != NULL)	cout << "right = " << cur->right->val << " ";
+		cout << endl;
+
+		print(cur->left);
+		print(cur->right);
 	}
 };
 
@@ -49,9 +80,11 @@ int main()
 	int a[5] = {2, 5 , 1, 7, 3};
 	persistentSegmentTree pst[5];
 
-	pst[0].build(0, 5);
+	pst[0].build(0, 4);
+	for (int i = 0; i < 5; i++) {
+		pst[i+1] = pst[i].update(0, 4, a[i], pst[i].root, 1);
 
-	pst[1].root = pst[0].update();
+		cout << "i = " << i << " print: " << endl;
 
-	pst[1].root = pst[1].update();
+	}
 }
