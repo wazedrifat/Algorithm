@@ -6,31 +6,36 @@ using namespace std;
 #define ll long long int
 #define PII pair <int, int>
 #define MX 100001
+struct Point {
+	double x, y;
+};
 
-int main() 
-{
-	vector <int> a{1, 2, 3}, b{4, 5, 6}, c(2, 0);
+bool cmp(Point a, Point b) {
+	return a.x < b.x;
+};
 
-	merge(a.begin(), a.end(), b.begin(), b.end(), c.begin());
+double dis(Point a, Point b) {
+	return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+}
 
-	
-	cout << "a : ";		//ThisIsForDebuggingPurposes
-	for (int temporary = 0; temporary < a.size(); temporary++)		//ThisIsForDebuggingPurposes
-		cout << a[temporary] << ' ' ;		//ThisIsForDebuggingPurposes
-	cout << endl;		//ThisIsForDebuggingPurposes
+int main() {
+	int n;
+	scanf("%d", &n);
 
-	
-	cout << "b : ";		//ThisIsForDebuggingPurposes
-	for (int temporary = 0; temporary < b.size(); temporary++)		//ThisIsForDebuggingPurposes
-		cout << b[temporary] << ' ' ;		//ThisIsForDebuggingPurposes
-	cout << endl;		//ThisIsForDebuggingPurposes
-	
-	
-	cout << "c : ";		//ThisIsForDebuggingPurposes
-	for (int temporary = 0; temporary < c.size(); temporary++)		//ThisIsForDebuggingPurposes
-		cout << c[temporary] << ' ' ;		//ThisIsForDebuggingPurposes
-	cout << endl;		//ThisIsForDebuggingPurposes
-	
-	
+	Point p[10000];
 
+	for (int i = 0; i < n; i++)
+	scanf("%lf%lf", &p[i].x, &p[i].y);
+
+	sort(p, p + n, cmp);
+	double mini = dis(p[0], p[1]);
+
+	for (int i = 0; i < n; i++)
+	for (int j = i + 1; j < n && (p[j].x - p[i].x)*(p[j].x - p[i].x) < mini; j++)
+		if (dis(p[j], p[i]) < mini) 
+			mini = dis(p[j], p[i]);
+
+	mini = sqrt(mini);
+
+	printf("%.4lf\n", mini);
 }
