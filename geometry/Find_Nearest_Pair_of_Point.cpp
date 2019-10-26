@@ -6,6 +6,7 @@ using namespace std;
 #define ll long long int
 #define PII pair <int, int>
 #define MX 100001
+
 struct Point {
 	double x, y;
 };
