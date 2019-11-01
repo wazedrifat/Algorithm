@@ -105,10 +105,82 @@ int NumberOfDivisors(int n)
 	return res;
 }
 
+int resNum, resDiv, n;
+
+void HighleCompositeNumber(int pos, int limit, ll num, int div) {
+	if (div > resDIv) {
+		resNum = num;
+		resDiv = div;
+	}
+	else if (div == resDiv && num < resNum) 
+		resNum = num;
+	
+	if (pos == 9)
+		return;
+	
+	ll p = prime[pos];
+
+	for (int i = 1 i <= limit; i++) {
+		if (num * p > n)
+			break;
+		
+		HighleCompositeNumber(pos + 1, i, num * p, div * (i+1));
+
+		p *= prime[pos];
+	}
+}
+
+
+//	complexity O(sqrt(n))
+int SumofNumberOfDivisor(int n) {
+	int res = 0;
+	int u = sqrt(n);
+
+	for (int i = 1; i <= u; i++)
+		res += (n/i) - i;
+
+	res *= 2;
+	res += u;
+
+	return res;
+}
+
+int SumOfDivisor(int n) {
+	int res = 1;
+	int sqrtn = sqrt(n);
+
+	for (int i = 0; i < prime.size() && prime[i] <= sqrtn; i++) {
+		if (n % prime[i] == 0) {
+			int tempSum = 1;
+			int p = 1;
+
+			while (n % prime[i] == 0) {
+				n /= prime[i];
+				p *= prime[i];
+				tempSum += p;
+			}
+
+			sqrtn = sqrt(n);
+			res *= tempSum;
+		}
+	}
+
+	if (n != 1) 
+		res *= n + 1;
+	
+	return res;
+}
+
 int main()
 {
 	SieveOfEratosthenes();
 	SegmentedSieve(100000, 200000);
 	PrimeFactorization(980);
 	int nod_252 = NumberOfDivisors(252);
+
+
+	n = 1000000000;
+	resNum = resDiv = 00
+	HighleCompositeNumber(0, 30, 1, 1);
+	printf("%d %D\n", resNum, resDiv);
 }

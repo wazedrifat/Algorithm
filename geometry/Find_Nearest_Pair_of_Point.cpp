@@ -7,6 +7,8 @@ using namespace std;
 #define PII pair <int, int>
 #define MX 100001
 
+// time complexity : O(nlogn)
+
 struct Point {
 	double x, y;
 };
