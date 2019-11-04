@@ -79,9 +79,10 @@ int bigMod(int n, int p, int mod ) {
 	return res;
 }
 
-//	Euler Phi Function : count of numbers < N 
+//	Euler Phi Function : count of numbers <= N 
 //	that are coPrime with N
-
+//	Number of elements e, such that gcd(e,n)=d is equal to ϕ(nd).
+//	∑of (d/n)  [ ] = n.
 int eulerPhi(int n) {
 	int res = n, sqrtn = sqrt(n);
 
@@ -103,15 +104,32 @@ int eulerPhi(int n) {
 	return res;
 }
 
-int modInverse(int a, int m)
-{
-	a %= m;
-	for (int x = 1; x < m; x++)
-	{
-		if ((a * x) % m == 1)
-			return x;
-	}
+//	x = (1/a) % mod
+int modInv(int a, int mod) {	//	mod is prime
+	return bigMod(a, mod - 2, mod);
 }
+
+int modInv2(int a, int mod) {	//	mod is not prime
+	int x, y;
+	ext_GCD(a, mod, x, y);
+
+	x %= mod;
+	if (x < 0)	
+		x += mod;
+	return x;
+}
+
+//	modular inverse of n
+//	complexity = O(n)
+int modInvArray[MX];
+void allModInv(int n, int mod) {
+	modInvArray[1] = 1;
+	for (int i = 1; i <= n; i++) {
+		modInvArray[i] = (-(mod / i) * modInvArray[mod % i]) % mod;
+		modInvArray[i] += mod;
+	}	
+}
+
 
 int main() 
 {
