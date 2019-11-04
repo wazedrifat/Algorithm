@@ -9,6 +9,8 @@ using namespace std;
 #define EPS 1e-9
 #define PI 2.0 * acos(0.0)
 
+vector <int> prime;
+
 int gcd(int a, int b) {
 	while (b) {
 		a = a % b;
@@ -21,6 +23,8 @@ int lcm(int a, int b) {
 	return ((a / gcd(a, b)) * b);
 }
 
+//	aX + bY = gcd(a, b)
+//	(x, y) = (x + (kb) / gcd(a, b)   ,   y - (ka) / gcd(a, b))
 int ext_GCD(int a, int b, int &X, int &Y) {
 	int x, y, x1, y1, x2, y2, r, r1, r2, q;
 	x1 = 0;		y1 = 1;
@@ -44,6 +48,7 @@ int ext_GCD(int a, int b, int &X, int &Y) {
 	return r2;
 }
 
+//	solve (x, y) for Ax + By = C
 bool linearDiophantineEquation(int A, int B, int C, int &x, int&y) {
 	int g = gcd(A, B);
 
@@ -57,10 +62,16 @@ bool linearDiophantineEquation(int A, int B, int C, int &x, int&y) {
 		a *= -1;	b *= -1;	c *= -1;
 	}
 
-	X *= c;		y *= c;	//	ax + by = c
+	x *= c;		y *= c;	//	ax + by = c
 	return true;
 }
 
+//	simple Hyperbolic Diophantine Equation
+//	solve (x, y)	for Axy + Bx + Cy = D
+//	=> (Ax + C) (Ay + B) = AD + BC
+//	(x, y) = ((d - C) / A	,	(P - Bd) / Ad)
+//	where P = AD + BC
+//	d is counted in res;
 bool isValidSolution(int a, int b, int c, int p, int div) {
 	if ( (div - c) % a != 0)	//	x = (div - c) / a
 		return false;
@@ -68,8 +79,7 @@ bool isValidSolution(int a, int b, int c, int p, int div) {
 		return false;
 	return true;
 }
-
-int simpleHyperbolicDiophantineEquation(int a, int b, int c. int d) {
+int simpleHyperbolicDiophantineEquation(int a, int b, int c, int d) {
 	int p = a*d + b*c;
 
 	if (!p) {	//	ad + bc = 0
@@ -91,7 +101,6 @@ int simpleHyperbolicDiophantineEquation(int a, int b, int c. int d) {
 
 	return res;
 }
-
 
 
 int main() 

@@ -11,7 +11,7 @@ using namespace std;
 //find the largest number d such that,
 //when elements of the array are divided by d,
 //they leave the same remainder
-
+// gcd((a-b), (b-c), (c-d).....)
 
 ll gcd ( ll a, ll b ) {
     while ( b ) {

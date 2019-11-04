@@ -106,7 +106,8 @@ int NumberOfDivisors(int n)
 }
 
 int resNum, resDiv, n;
-
+//	A Highly Composite Number (HCN) is a positive integer 
+//	which has more divisors than any smaller positive integer
 void HighleCompositeNumber(int pos, int limit, ll num, int div) {
 	if (div > resDIv) {
 		resNum = num;
