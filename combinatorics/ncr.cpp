@@ -34,8 +34,6 @@ ll getNCR(int n, int r, int MOD) {
 	return res;
 }
 
-
-
 int main() 
 {
 	

@@ -6,85 +6,62 @@ using namespace std;
 #define ll long long int
 #define PII pair <int, int>
 #define MX 100001
+#define EPS 1e-9
+#define MOD 1000000007
+#define PI 2.0 * acos(0.0)
 
-int a[MX];
-
-class node {
-public:
-	int val;
+struct node {
 	node *left, *right;
-	node(int v = 0, node *l = NULL, node *r = NULL) {
-		val = v;	left = l;	right = r;
-	}
-};
-
-
-class persistentSegmentTree {
-public:
-	node* root;
-	persistentSegmentTree( ) {
-	
+	int val;
+	node(int a = 0, node *b = NULL, node *c = NULL) {
+		val = a;	left = b;	right = c;
 	}
 
-	node *build(int l, int r) {
-		if (l == r) return new node(a[l]);
-
-		node *n = new node();
-		int mid = (l + r) >> 2;
-		n->left = build(l, mid);
-		n->right = build(mid + 1, r);
-		n->val = n->left->val + n->right->val;
-
-		return n;
-	}
-	
-	node *update(int l, int r, int pos, node *cur, int val) {
-		if (r < pos || l > pos)	return cur;
+	void build(int l, int r) {
 		if (l == r)
-			return new node(cur->val+1);
+			return;
 		
-		int mid = (l + r) >> 2;
+		left = new node();
+		right = new node();
 
-		node *left = update(l, mid, pos, cur->left, val);
-		node *right = update(mid + 1, r, pos, cur->right, val);
-		
-		return new node(left->val + right->val, left, right);
+		int mid = (l + r) >> 1;
+		left->build(l, mid);
+		right->build(mid + 1, r);
 	}
 
-	int query(int l, int r, int i, int j, node *cur) {//[l, r] range & [i, j] query
-		if (r < i || l > j)	return 0;
-		if (i <= l && j >= r)
-			return cur->val;
+	node* update(int l, int r, int idx, int v) {
+		if (r < idx || l > idx)
+			return this;
+		else if (l == r)
+			return new node(val + v, left, right);
 		
-		int mid = (l + r) >> 2;
-
-		return query(l, mid, i, j, cur->left) + query(mid + 1, r, i, j, cur->right);
+		int mid = (l + r) >> 1;
+		node *ret = new node(val);
+		ret->left = left->update(l, mid, idx, v);
+		ret->right = right->update(mid+1, r, idx, v);
+		ret->val = ret->left->val + ret->right->val;
+		return ret;
 	}
-
-	void print(node *cur) {
-		if (cur == NULL)	return;
-
-		cout << "cur = " << cur->val << " ";
-		if (left != NULL)	cout << "left = " << cur->left->val << " ";
-		if (right != NULL)	cout << "right = " << cur->right->val << " ";
-		cout << endl;
-
-		print(cur->left);
-		print(cur->right);
+	
+	//	[l, r] node range
+	//	[i, j] query range
+	int query(int l, int r, int i, int j) {
+		if (r < i || l > j)
+			return 0;
+		else if (i <= l && r <= j)
+			return val;
+		
+		int mid = (l + r) >> 1;
+		int ret = left->query(l, mid, i, j) + right->query(mid+1, r, i, j);
+		return ret;
 	}
-}
-
+} *root[MX];
 
 int main() 
 {
-	int a[5] = {2, 5 , 1, 7, 3};
-	persistentSegmentTree pst[5];
-
-	pst[0].build(0, 4);
-	for (int i = 0; i < 5; i++) {
-		pst[i+1] = pst[i].update(0, 4, a[i], pst[i].root, 1);
-
-		cout << "i = " << i << " print: " << endl;
-
-	}
+	int n = MX:
+	root[0] = new node();
+	root[0]->build(0, n - 1);
+	//update value of 4th index with 6
+	root[1] = root[0]->update(0, n-1, 4, 6);
 }
