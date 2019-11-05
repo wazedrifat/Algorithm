@@ -79,6 +79,7 @@ bool isValidSolution(int a, int b, int c, int p, int div) {
 		return false;
 	return true;
 }
+
 int simpleHyperbolicDiophantineEquation(int a, int b, int c, int d) {
 	int p = a*d + b*c;
 
@@ -102,6 +103,106 @@ int simpleHyperbolicDiophantineEquation(int a, int b, int c, int d) {
 	return res;
 }
 
+//	Euler Phi Function : count of numbers <= N 
+//	that are coPrime with N
+//	Number of elements e, such that gcd(e,n)=d is equal to ϕ(nd).
+//	∑of (d/n)  [ ] = n.
+int eulerPhi(int n) {
+	int res = n, sqrtn = sqrt(n);
+
+	for (int i = 0; i < prime.size() && prime[i] <= sqrtn; i++) {
+		if (n % prime[i] == 0) {
+			while (n % prime[i] == 0)
+				n /= prime[i];
+
+			sqrtn = sqrt(n);
+			res /= prime[i];
+			res *= prime[i] - 1;
+		}
+	}
+
+	if (n != 1) {
+		res /= n;
+		res *= n - 1;
+	}
+	return res;
+}
+
+//	returns (n^p) % mod
+int bigMod(int n, int p, int mod ) {
+	int res = 1%mod, x = n%mod;
+
+	while (p) {
+		if (p&1)
+			res = (res * x) % mod;
+		
+		x = (x * x) % mod;
+		p >>= 1;
+	}
+	return res;
+}
+
+//	x = (1/a) % mod
+int modInv(int a, int mod) {	//	mod is prime
+	return bigMod(a, mod - 2, mod);
+}
+
+int modInv2(int a, int mod) {	//	mod is not prime
+	int x, y;
+	ext_GCD(a, mod, x, y);
+
+	x %= mod;
+	if (x < 0)	
+		x += mod;
+	return x;
+}
+
+//	modular inverse of n
+//	complexity = O(n)
+int modInvArray[MX];
+void allModInv(int n, int mod) {
+	modInvArray[1] = 1;
+	for (int i = 1; i <= n; i++) {
+		modInvArray[i] = (-(mod / i) * modInvArray[mod % i]) % mod;
+		modInvArray[i] += mod;
+	}	
+}
+
+//	return {-1. -1} if invalid input
+//	return {x, l}	where x is unique
+//	when mod by l [answer => x(MOD L)]
+//	answer = x + L * k;	k = 0,1,2,3...
+//	complexity: O( nlog(L) )
+PII ChineseRemainderTheorem(vector <int> A, vector <int> M) {
+	if (A.size() != M.size())
+		return {-1, -1};
+	
+	int n = A.size();
+	int a1 = A[0], m1 = M[0];
+
+	for (int i = 1; i < n; i++) {
+		int a2 = A[i], m2 = M[i];
+		int g = gcd(m1, m2);
+
+		if (a1%g != a2%g)
+			return {-1, -1};
+		
+		int p, q;
+		ext_GCD(m1/g, m2/g, p, q);
+
+		int mod = m1 / g * m2;
+
+		//modify inCase Overflow
+		int x = (a1 * (m2 / g) * q + a2 * (m1 / g) * p) % mod;
+
+		a1 = x;
+		if (a1 < 0)
+			a1 += mod;
+		m1 = mod;
+	}
+
+	return PII(a1, m1);
+}
 
 int main() 
 {
