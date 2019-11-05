@@ -11,6 +11,50 @@ using namespace std;
 
 vector <int> prime;
 
+bool islow(char ch){if(ch>='a' && ch<='z') return true; return false;}
+bool isupp(char ch){if(ch>='A' && ch<='Z') return true; return false;}
+bool isdig(char ch){if(ch>='0' && ch<='9') return true; return false;}
+ 
+//any base to decimal conversion
+int todec(string s, int base) {
+	int i, j, temp, len, sum = 0;
+
+	len = s.length() - 1;
+	for (i = 0, j = len; i <= len; i++, j--) {
+		char ch = s.at(i);
+		if (isdig(ch))
+			temp = ch - '0';
+		else if (islow(ch))
+			temp = 10 + ch - 'a';
+		else if (isupp(ch))
+			temp = 10 + ch - 'A';
+
+		sum += (temp * (power(base, j)));
+	}
+	return sum;
+}
+
+//decimal to any base conversion
+string tobase(int num, int base) {
+	int temp;
+	string s;
+	char ch;
+
+	if (!num)
+		return "0"; //special '0' case handling
+
+	while (num > 0)	{
+		temp = num % base;
+		num /= base;
+		if (temp <= 9)
+			s += (temp + '0');
+		else
+			s += ((temp - 10) + 'A');
+	}
+	reverse(all(s));
+	return s;
+}
+
 int numberOfDigit(int n, int base = 10) {
 	int res = floor(log(n) / log(base));
 	return (res + 1 + EPS);
