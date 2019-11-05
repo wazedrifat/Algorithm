@@ -72,7 +72,7 @@ public:
 		print(cur->left);
 		print(cur->right);
 	}
-};
+}
 
 
 int main() 
