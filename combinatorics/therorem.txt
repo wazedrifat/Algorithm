@@ -1,0 +1,25 @@
+Stars and Bars Theorem : 
+	if [n,k>=0], 
+the number of K-tuples of non-negative integers 
+whose sum is N =>(N+K−1)C(N) =>(N+K−1)C(K−1).
+if (n>0 && k >0) : (N−1)C(K−1).
+
+Theorem: 
+	If we have K distinguishable containers and
+	 N indistinguishable balls, 
+	 then we can distribute them in (N+K−1)C(N) ways.
+Theorem: 
+	if (n>0 && k >0) , 
+	the number of K-tuples of positive integers 
+	whose sum is N  => (N−1)C(K−1).
+Theorem:
+	if (n>0 && k >0) , 
+	the number of K-tuples of non-negative integers 
+	whose sum <= N => (N+K)C(K).
+	
+Application of Prufer Code: 
+	Random Tree Generation, 
+	Cayley’s Formula,
+	Building Tree from Degree Count
+
+number of spanning trees with N node is N^(N−2).

@@ -11,15 +11,15 @@ using namespace std;
 #define PI 2.0 * acos(0.0)
 #define sz 100
 
-// call DFS(G) to compute finishing times f [u] for all u
+// call DFS(G) to compute finishing Times f [u] for all u
 // compute GT
 // call DFS(GT), but in the main loop, consider vertices in order of decreasing f [u] (as computed in first DFS)
 // output the vertices in each tree of the depth-first forest formed in second DFS as a separate SCC
 
-vector<int> graph[sz], Gt[sz]; //graph[] store the graph and Gt[] store transpose graph
+vector<int> g[sz], Gt[sz]; //graph[] store the graph and Gt[] store transpose graph
 vector<int> topo;
 int disc[sz], fin[sz], color[sz];
-int time = 0;
+int Time = 0;
 
 void dfs_visit(int node, int flag)
 {
@@ -28,15 +28,15 @@ void dfs_visit(int node, int flag)
 	color[node] = 1;
 	if (flag == 0) //for the general graph, first dfs call
 	{
-		disc[node] = ++time;
+		disc[node] = ++Time;
 
-		for (i = 0; i < graph[node].size(); i++)
+		for (i = 0; i < g[node].size(); i++)
 		{
-			temp = graph[node][i];
+			temp = g[node][i];
 			if (color[temp] == 0)
 				dfs_visit(temp, flag);
 		}
-		fin[node] = ++time;
+		fin[node] = ++Time;
 		topo.push_back(node);
 	}
 	else //for the transpose graph, second dfs call
@@ -87,7 +87,7 @@ int main()
 	for (i = 0; i < edge; i++)
 	{
 		scanf("%d%d", &a, &b);
-		graph[a].push_back(b); //directed graph
+		g[a].push_back(b); //directed graph
 		Gt[b].push_back(a);	//transpose graph
 	}
 
