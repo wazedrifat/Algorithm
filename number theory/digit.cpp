@@ -130,8 +130,6 @@ void allModInv(int n, int mod) {
 	}	
 }
 
-
-
 int main() 
 {
 	
