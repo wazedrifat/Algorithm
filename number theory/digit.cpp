@@ -80,6 +80,26 @@ ll factorialPrimePower(ll n, ll p) {
 	return freq;
 }
 
+//	(n!)^k
+int fact_pow (int n, int k) {
+    int res = 0;
+    while (n) {
+        n /= k;
+        res += n;
+    }
+    return res;
+}
+
+//	pascale triangle
+const int maxn = ...;
+int C[maxn + 1][maxn + 1];
+C[0][0] = 1;
+for (int n = 1; n <= maxn; ++n) {
+    C[n][0] = C[n][n] = 1;
+    for (int k = 1; k < n; ++k)
+        C[n][k] = C[n - 1][k - 1] + C[n - 1][k];
+}
+
 //	first k leading digit of n!
 int leadingDigitofFactorial(int n, int k) {
 	double fact = 0;
