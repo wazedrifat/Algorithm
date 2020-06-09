@@ -129,8 +129,8 @@ int eulerPhi(int n) {
 }
 
 //	returns (n^p) % mod
-int bigMod(int n, int p, int mod ) {
-	int res = 1%mod, x = n%mod;
+LL bigMod(LL n, LL p, LL mod ) {
+	LL res = 1%mod, x = n%mod;
 
 	while (p) {
 		if (p&1)
@@ -143,12 +143,12 @@ int bigMod(int n, int p, int mod ) {
 }
 
 //	x = (1/a) % mod
-int modInv(int a, int mod) {	//	mod is prime
+LL modInv(LL a, LL mod) {	//	mod is prime
 	return bigMod(a, mod - 2, mod);
 }
 
-int modInv2(int a, int mod) {	//	mod is not prime
-	int x, y;
+LL modInv2(LL a, LL mod) {	//	mod is not prime
+	LL x, y;
 	ext_GCD(a, mod, x, y);
 
 	x %= mod;
