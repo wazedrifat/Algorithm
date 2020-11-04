@@ -1,4 +1,5 @@
-#include<bits / stdc++.h> using namespace std;
+#include<bits / stdc++.h> 
+using namespace std;
 
 #define file freopen("input.txt", "r", stdin);
 #define CLOCK printf("time: %lld ms\n", (long long)clock() * 1000 / CLOCKS_PER_SEC);
@@ -15,15 +16,15 @@ void SieveOfEratosthenes(int limit = MX)
 
 	prime.push_back(2);
 
-	for (int i = 4; i <= limit; i += 2)
+	for (int i = 4; i < limit; i += 2)
 		flag[i] = 1;
 
 	for (int i = 3; i * i < limit; i += 2)
 		if (flag[i] == 0)
-			for (int j = i * i; j <= limit; j += 2 * i)
+			for (int j = i * i; j < limit; j += 2 * i)
 				flag[j] = 1;
 
-	for (int i = 3; i <= limit; i += 2)
+	for (int i = 3; i < limit; i += 2)
 		if (flag[i] == 0)
 			prime.push_back(i);
 }
