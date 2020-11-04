@@ -16,59 +16,57 @@ using namespace std;
 #define PII pair <int, int>
 #define Booster() ios_base::sync_with_stdio(false);	cin.tie(NULL);
 
-using cd = complex<double>;
-
-void fft(vector<cd> & a, bool invert) {
-    int n = a.size();
-
-    for (int i = 1, j = 0; i < n; i++) {
-        int bit = n >> 1;
-        for (; j & bit; bit >>= 1)
-            j ^= bit;
-        j ^= bit;
-
-        if (i < j)
-            swap(a[i], a[j]);
+typedef complex < double > base ;
+ 
+//inv=0 means Converting from coefficient form to point value form
+//inv=1 means Converting from point value  form to coefficient form i.e. inverse fft
+void fft(vector<base> &a,bool inv)
+{
+    int n=(int)a.size();
+    //rearranging the elements to the leaf nodes of the tree
+    for(int i=1,j=0;i<n;i++){
+        int bit=n>>1;
+        for(;j>=bit;bit>>=1) j-=bit;
+        j+=bit;
+        if(i<j) swap(a[i],a[j]);
     }
-
-    for (int len = 2; len <= n; len <<= 1) {
-        double ang = 2 * PI / len * (invert ? -1 : 1);
-        cd wlen(cos(ang), sin(ang));
-        for (int i = 0; i < n; i += len) {
-            cd w(1);
-            for (int j = 0; j < len / 2; j++) {
-                cd u = a[i+j], v = a[i+j+len/2] * w;
-                a[i+j] = u + v;
-                a[i+j+len/2] = u - v;
-                w *= wlen;
+    for(int len=2;len<=n;len*=2){
+        long double ang=2*PI/len*(inv?-1:1);
+        base wlen(cos(ang),sin(ang));
+        //wlen=e^(2*PI*i/n)=cos(2*PI/n)+i*sin(2*PI/n)
+        //bcz e^(i*theta)=cos(theta)+i*sin(theta)
+        for(int i=0;i<n;i+=len){
+            base w=1;
+            for(int j=0;j<len/2;j++){
+                base even=a[i+j],odd=a[i+j+len/2];
+                a[i+j]=even+w*odd;
+                a[i+j+len/2]=even-w*odd;
+                w*=wlen;
             }
         }
     }
-
-    if (invert) {
-        for (cd & x : a)
-            x /= n;
-    }
+    if(inv) for(int i=0;i<n;i++) a[i]/=n;
 }
-
-vector<int> multiply(vector<int> const& a, vector<int> const& b) {
-    vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
-    int n = 1;
-    while (n < a.size() + b.size()) 
-        n <<= 1;
+vector <int> multiply(vector <int>& a,vector <int>& b)
+{
+    vector<base>fa(a.begin(), a.end()),fb(b.begin(), b.end());
+    int n=1;
+    int mx=max((LL)a.size(),(LL)b.size());
+    while(n<mx) n*=2;//making it power of 2
+    n*=2;//making 2*n size
     fa.resize(n);
     fb.resize(n);
-
-    fft(fa, false);
-    fft(fb, false);
-    for (int i = 0; i < n; i++)
-        fa[i] *= fb[i];
-    fft(fa, true);
-
-    vector<int> result(n);
-    for (int i = 0; i < n; i++)
-        result[i] = round(fa[i].real());
-    return result;	//	(a.size() + b.size() - 1) only needed, rest are zero
+    //convolution
+    fft(fa,0);
+    fft(fb,0);
+    for(int i=0;i<n;i++) fa[i]*=fb[i];
+    fft(fa,1);//inverse fft
+    
+	vector <int> res(n);
+    for(int i=0;i<n;i++) res[i]=int(fa[i].real()+0.5);
+    for(int i=0;i<n;i++) if(res[i]>1) res[i]=1;
+    while(res.size()>1&&res.back()==0) res.pop_back();
+    return res;
 }
 
 int main() {
