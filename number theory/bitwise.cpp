@@ -13,7 +13,19 @@ int count(int MASK)
 	return count;
 }
 
-bool IsPowerOfTwo(int x)
+int count(int MASK) //better
+{
+	int count = 0;
+
+	while (MASK) {
+		MASK = (MASK & MASK - 1);
+		count++;
+	}
+
+	return count;
+}
+
+bool IsPowerOfTwo(int x) 
 {
 	return (x && !(x & (x - 1)));
 }
